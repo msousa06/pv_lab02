@@ -13,5 +13,7 @@ namespace VerificacaoProdutos
         public string Category { get; set; }
         public decimal UnitPrice { get; set; }
         public int UnitsInStock { get; set; }
+
+        public override string ToString() => "#" + ProductId + " - " + ProductName + " - " + Category + " - " + UnitPrice + " - " + UnitsInStock; 
     }
 }

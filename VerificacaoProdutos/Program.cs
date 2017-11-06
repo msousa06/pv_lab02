@@ -20,9 +20,71 @@ namespace VerificacaoProdutos
 
             // Testes LinQ
 
+            //  **** Nivel 1 ****
+            Console.WriteLine("\n **** Produtos sem stock ****\n");
+            var produtosSemStock = from produto in products where produto.UnitsInStock == 0 select produto;
+            foreach(Product produto in produtosSemStock)
+            {
+                Console.WriteLine(produto);
+            }
 
+            Console.WriteLine("\n **** Listagem condimentos **** \n");
+            var condimentos = from produto in products
+                              where produto.Category == "Condiments"
+                              orderby produto.ProductName ascending
+                              select produto.ProductName;
+            foreach(string produto in condimentos)
+            {
+                Console.WriteLine(produto);
+            }
 
+            // **** Nivel 2 ****
+            Console.WriteLine("\n **** Produtos a menos de 25 euros ****\n");
+            var menos25 = from produto in products
+                          where produto.Category == "Beverages" && produto.UnitPrice < 25
+                          select produto;
+            foreach(var produto in menos25)
+            {
+                Console.WriteLine(produto);
+            }
 
+            Product p1 = new Product
+            {
+                ProductId = 78,
+                ProductName = "Sagres",
+                Category = "Beverages",
+                UnitPrice = 10.1M,
+                UnitsInStock = 25
+            };
+
+            Product p2 = new Product
+            {
+                ProductId = 79,
+                ProductName = "Super Bock",
+                Category = "Beverages",
+                UnitPrice = 10.1M,
+                UnitsInStock = 15
+            };
+
+            products.Add(p1);
+            products.Add(p2);
+
+            Console.WriteLine("\n **** Replicacacao query depois da adicao **** \n");
+            foreach (var produto in menos25)
+            {
+                Console.WriteLine(produto);
+            }
+
+            var lastInsertID = (from produto in products select produto.ProductId).Max();
+            lastInsertID++;
+            Product p3 = new Product
+            {
+                ProductId = lastInsertID,
+                ProductName = "Calsberg",
+                Category = "Beverages",
+                UnitPrice = 18.1M,
+                UnitsInStock = 12
+            };
 
             Console.ReadLine();
         }

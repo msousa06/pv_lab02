@@ -14,6 +14,6 @@ namespace VerificacaoProdutos
         public decimal UnitPrice { get; set; }
         public int UnitsInStock { get; set; }
 
-        public override string ToString() => "#" + ProductId + " - " + ProductName + " - " + Category + " - " + UnitPrice + " - " + UnitsInStock; 
+        public override string ToString() => "#" + ProductId + " - " + ProductName + " - " + Category + " - " + String.Format("{0:0.00}", UnitPrice) + "e - " + UnitsInStock; 
     }
 }

@@ -115,7 +115,7 @@ namespace VerificacaoProdutos
             {
                 Console.WriteLine(produto.Nome + " - > " + String.Format("{0:0.00}", produto.ValorTotal) + " euros em stock");
             }
-            Console.ReadLine();
+            
 
             var precos = from produto in products select produto.UnitPrice;
             var maiorCusto = from produto in products
@@ -124,7 +124,19 @@ namespace VerificacaoProdutos
             Console.WriteLine("\n **** Produto mais caro **** \n");
             Console.WriteLine(maiorCusto.First());
 
+            var menorCusto = from produto in products
+                             where produto.UnitPrice == precos.Min()
+                             select produto;
+            Console.WriteLine("\n **** Produto mais barato **** \n");
+            Console.WriteLine(menorCusto.First());
 
+            Console.WriteLine("\n **** Media de preços **** \n");
+            Console.WriteLine(String.Format("{0:0.00}",precos.Average())+ "euros ");
+
+
+
+
+            Console.ReadLine();
         }
 
         private static List<Product> CriarProdutos()

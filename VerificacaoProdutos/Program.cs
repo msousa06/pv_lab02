@@ -23,7 +23,7 @@ namespace VerificacaoProdutos
             //  **** Nivel 1 ****
             Console.WriteLine("\n **** Produtos sem stock ****\n");
             var produtosSemStock = from produto in products where produto.UnitsInStock == 0 select produto;
-            foreach(Product produto in produtosSemStock)
+            foreach (Product produto in produtosSemStock)
             {
                 Console.WriteLine(produto);
             }
@@ -33,7 +33,7 @@ namespace VerificacaoProdutos
                               where produto.Category == "Condiments"
                               orderby produto.ProductName ascending
                               select produto.ProductName;
-            foreach(string produto in condimentos)
+            foreach (string produto in condimentos)
             {
                 Console.WriteLine(produto);
             }
@@ -43,7 +43,7 @@ namespace VerificacaoProdutos
             var menos25 = from produto in products
                           where produto.Category == "Beverages" && produto.UnitPrice < 25
                           select produto;
-            foreach(var produto in menos25)
+            foreach (var produto in menos25)
             {
                 Console.WriteLine(produto);
             }
@@ -86,7 +86,45 @@ namespace VerificacaoProdutos
                 UnitsInStock = 12
             };
 
+            List<int> lista = new List<int>
+            {
+                5,
+                6,
+                8,
+                9
+            };
+
+            var emArray = from produto in products
+                          where lista.Contains(produto.ProductId)
+                          select produto;
+            Console.WriteLine("\n **** Produtos com o ID na lista(5,6,8,9 ****\n");
+            foreach (var produto in emArray)
+            {
+                Console.WriteLine(produto);
+            }
+
+            // **** Nivel 3 ****
+            var totais = from produto in products
+                         select new
+                         {
+                             Nome = produto.ProductName,
+                             ValorTotal = (produto.UnitPrice * produto.UnitsInStock)
+                         };
+            Console.WriteLine("\n **** Totais em stock **** ");
+            foreach (var produto in totais)
+            {
+                Console.WriteLine(produto.Nome + " - > " + String.Format("{0:0.00}", produto.ValorTotal) + " euros em stock");
+            }
             Console.ReadLine();
+
+            var precos = from produto in products select produto.UnitPrice;
+            var maiorCusto = from produto in products
+                             where produto.UnitPrice == precos.Max()
+                             select produto;
+            Console.WriteLine("\n **** Produto mais caro **** \n");
+            Console.WriteLine(maiorCusto.First());
+
+
         }
 
         private static List<Product> CriarProdutos()

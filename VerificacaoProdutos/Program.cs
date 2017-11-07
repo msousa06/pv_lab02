@@ -133,9 +133,79 @@ namespace VerificacaoProdutos
             Console.WriteLine("\n **** Media de preços **** \n");
             Console.WriteLine(String.Format("{0:0.00}",precos.Average())+ "euros ");
 
+            // **** Nivel 4 ****
 
+            //Sem lambda
+            //var ordemCusto = from produto in products
+            //                 orderby produto.UnitPrice ascending
+            //                 select produto;
+            Console.WriteLine("\n **** Lista ordenada ascendentemente pelo preço **** \n");
+            //foreach(var produto in ordemCusto)
+            //{
+            //    Console.WriteLine(produto);
+            //}
 
+            //Com labda
+            List<Product> produtosOrdenadosPorPreco = products.OrderBy(produto => produto.UnitPrice).ToList();
+            foreach(var produto in produtosOrdenadosPorPreco)
+            {
+                Console.WriteLine(produto);
+            }
 
+            List<String> categorias = products.Select(produto => produto.Category).Distinct().ToList();
+            Console.WriteLine("\n **** Lista de categorias **** \n");
+            foreach(var categoria in categorias)
+            {
+                Console.WriteLine(categoria);
+            }
+
+            Console.WriteLine("\n **** Existem produtos com preço >2000 ****\n");
+            bool existemProdutos = products.Any(produto => produto.UnitPrice > 200);
+            if (existemProdutos)
+            {
+                Console.WriteLine("Sim");
+            }
+            else
+            {
+                Console.WriteLine("Não");
+            }
+
+            Console.WriteLine("\n **** Número médio de unidades em stock ****\n ");
+            var mediaUnidades = products.Average(produto => produto.UnitsInStock);
+            Console.WriteLine(String.Format("{0:0.00}", mediaUnidades));
+
+            Console.WriteLine("\n **** 3 primeiros produtos com custo > 50 ****\n");
+            var tresPrimeirosPrecoMaiorQue50 = products.Where(produto => produto.UnitPrice > 50).Take(3).ToList();
+            foreach(var produto in tresPrimeirosPrecoMaiorQue50)
+            {
+                Console.WriteLine(produto);
+            }
+
+            Console.WriteLine("\n **** 4º e 5º produto com letra começada por C **** \n");
+            var produtosComC = products.Where(produto => produto.ProductName.StartsWith("C")).Take(5).Skip(3).ToList();
+            foreach(var produto in produtosComC)
+            {
+                Console.WriteLine(produto);
+            }
+
+            Console.WriteLine("\n **** Produtos ordenados pela categoria e depois por nome **** \n");
+            var produtosCategoriaNome = products.OrderBy(p => p.Category).ThenBy(p => p.ProductName).ToList();
+            foreach(var p in produtosCategoriaNome)
+            {
+                Console.WriteLine(p);
+            }
+
+            Console.WriteLine("\n **** Categorias e respectivos produtos **** \n");
+            var agrupamentoCategorias = products.GroupBy(p => p.Category);
+            foreach(var categoria in agrupamentoCategorias)
+            {
+                Console.WriteLine("\n#### " + categoria.Key + "####\n");
+                foreach(var p in categoria)
+                {
+                    Console.WriteLine(p);
+                }
+            }
+            
             Console.ReadLine();
         }
 
